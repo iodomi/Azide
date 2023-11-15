@@ -28,11 +28,15 @@ public final class ModuleManager implements IManager {
     public void initialize() {
         Azide.getSingleton().getEventBus().register(this);
 
-        for (final Class<? extends Module> clazz : new Reflections().getSubTypesOf(Module.class)) {
-            try {
-                classModuleMap.put(clazz, clazz.getDeclaredConstructor().newInstance());
-            } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
-                e.printStackTrace();
+        final Set<Class<? extends Module>> classSet = new Reflections().getSubTypesOf(Module.class);
+
+        if (!classSet.isEmpty()) {
+            for (final Class<? extends Module> clazz : classSet) {
+                try {
+                    classModuleMap.put(clazz, clazz.getDeclaredConstructor().newInstance());
+                } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
