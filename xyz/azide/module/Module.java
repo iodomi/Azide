@@ -1,6 +1,7 @@
 package xyz.azide.module;
 
 import xyz.azide.Azide;
+import xyz.azide.value.impl.KeyValue;
 
 /**
  * @author plusbox
@@ -11,6 +12,7 @@ public class Module {
     private final String name, description;
     private final ModuleCategory moduleCategory;
     private boolean enabled;
+    private KeyValue keybind;
     protected Runnable onEnable;
     protected Runnable onDisable;
 
@@ -18,6 +20,7 @@ public class Module {
         this.name = name;
         this.description = !description.isEmpty() ? description : name;
         this.moduleCategory = moduleCategory;
+        this.keybind = getKeybind();
     }
 
     public void toggle() {
@@ -30,6 +33,14 @@ public class Module {
 
     public String getDescription() {
         return description;
+    }
+
+    public KeyValue getKeybind() {
+        return keybind;
+    }
+
+    public void setKeybind(KeyValue key) {
+        this.keybind = key;
     }
 
     public ModuleCategory getModuleCategory() {

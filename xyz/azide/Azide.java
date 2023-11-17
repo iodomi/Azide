@@ -29,7 +29,7 @@ public final class Azide implements IInitializable {
         moduleManager.initialize();
         valueManager.initialize();
 
-        Display.setTitle(NAME + " " + VERSION + "(" + BUILD + ")");
+        Display.setTitle(NAME + " " + VERSION + " (" + BUILD + ")");
     }
 
     public static Azide getSingleton() {

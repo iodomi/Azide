@@ -114,7 +114,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
     {
         if (this.worldObj.isBlockLoaded(new BlockPos(this.posX, 0.0D, this.posZ)))
         {
-            Azide.getSingleton().getEventBus().register(new EventUpdate());
+            Azide.getSingleton().getEventBus().dispatch(new EventUpdate());
 
             super.onUpdate();
 
@@ -234,7 +234,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
 
         if (event.isCancelled()) return;
 
-        Azide.getSingleton().getEventBus().register(event);
+        Azide.getSingleton().getEventBus().dispatch(event);
 
         this.sendQueue.addToSendQueue(new C01PacketChatMessage(message));
     }

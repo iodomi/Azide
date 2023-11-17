@@ -23,21 +23,20 @@ public final class ValueManager implements IManager {
     public void initialize() {
         for (final Module module : Azide.getSingleton().getModuleManager().getModules()) {
             final ValueContainer valueContainer = new ValueContainer();
-            
-//            for (final Field field : module.getClass().getDeclaredFields()) {
-//                if (Value.class.isAssignableFrom(field.getType())) {
-//                    try {
-//                        final Value<?> value = (Value<?>) field.get(module);
-//                        valueContainer.getStringValueMap().put(value.getName(), value);
-//                    } catch (IllegalAccessException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-            
-            moduleValueContainerMap.put(module.getClass(), valueContainer);
+
+            for (final Field field : module.getClass().getDeclaredFields()) {
+                if (Value.class.isAssignableFrom(field.getType())) {
+                    try {
+                        final Value<?> value = (Value<?>) field.get(module);
+                        valueContainer.getStringValueMap().put(value.getName(), value);
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
         }
     }
+
 
     public HashMap<Class<? extends Module>, ValueContainer> getModuleValueContainerMap() {
         return moduleValueContainerMap;
