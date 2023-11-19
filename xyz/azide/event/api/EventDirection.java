@@ -1,4 +1,4 @@
-package xyz.azide.event;
+package xyz.azide.event.api;
 
 /**
  * @author plusbox

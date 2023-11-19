@@ -1,5 +1,7 @@
 package xyz.azide.event;
 
+import xyz.azide.event.api.EventDirection;
+
 /**
  * @author plusbox
  * @since 11/14/2023

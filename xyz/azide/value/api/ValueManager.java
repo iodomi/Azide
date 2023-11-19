@@ -1,8 +1,9 @@
-package xyz.azide.value;
+package xyz.azide.value.api;
 
 import xyz.azide.Azide;
 import xyz.azide.module.Module;
-import xyz.azide.trait.IManager;
+import xyz.azide.trait.Manager;
+import xyz.azide.value.Value;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -12,7 +13,7 @@ import java.util.HashMap;
  * @since 11/14/2023
  * @version 1.0
  */
-public final class ValueManager implements IManager {
+public final class ValueManager implements Manager {
     private final HashMap<Class<? extends Module>, ValueContainer> moduleValueContainerMap;
 
     public ValueManager() {

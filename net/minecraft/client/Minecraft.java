@@ -1763,7 +1763,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
                 if (Keyboard.getEventKeyState())
                 {
                     final EventKey event = new EventKey(k);
-                    Azide.getSingleton().getEventBus().dispatch(new EventKey(k));
+                    Azide.getSingleton().getEventBus().dispatch(event);
 
                     if (!event.isCancelled()) {
                         KeyBinding.onTick(k);

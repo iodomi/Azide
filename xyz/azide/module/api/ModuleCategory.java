@@ -1,4 +1,4 @@
-package xyz.azide.module;
+package xyz.azide.module.api;
 
 /**
  * @author plusbox
@@ -9,9 +9,7 @@ public enum ModuleCategory {
     COMBAT,
     MOVEMENT,
     PLAYER,
-    RENDER,
-    WORLD,
-    EXPLOIT,
+    VISUAL,
     OTHER;
 
     private final String name;

@@ -10,19 +10,21 @@ import xyz.azide.value.impl.KeyValue;
 
 import java.util.function.Consumer;
 
-public final class Sprint extends Module {
-    public Sprint() {
-        super("Sprint", "Automatically sprints for you", ModuleCategory.MOVEMENT);
-        setKeybind(new KeyValue("Sprint", null, Keyboard.KEY_N));
+public final class Flight extends Module {
+    public Flight() {
+        super("Flight", "Lets you fly", ModuleCategory.MOVEMENT);
+        setKeybind(new KeyValue("Flight", null, Keyboard.KEY_F));
 
         onEnable = () -> {};
-        onDisable = () -> mc.thePlayer.setSprinting(false);
+        onDisable = MovementUtil::stop;
     }
 
     @Register
     private final Consumer<EventUpdate> onEventUpdate = event -> {
-        if (MovementUtil.getMoving()) {
-            mc.thePlayer.setSprinting(true);
-        }
+        mc.thePlayer.motionY = mc.thePlayer.movementInput.jump ? 1 : mc.thePlayer.movementInput.sneak ? -1 : 0;
+        if (MovementUtil.getMoving())
+            MovementUtil.setMoving(1);
+        else
+            MovementUtil.stop();
     };
 }

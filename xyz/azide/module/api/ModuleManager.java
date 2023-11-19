@@ -1,4 +1,4 @@
-package xyz.azide.module;
+package xyz.azide.module.api;
 
 import com.google.common.collect.ClassToInstanceMap;
 import com.google.common.collect.MutableClassToInstanceMap;
@@ -6,12 +6,9 @@ import org.reflections.Reflections;
 import xyz.azide.Azide;
 import xyz.azide.event.bus.Register;
 import xyz.azide.event.impl.EventKey;
-import xyz.azide.module.impl.movement.Sprint;
-import xyz.azide.trait.IManager;
-import xyz.azide.value.Value;
-import xyz.azide.value.ValueContainer;
+import xyz.azide.module.Module;
+import xyz.azide.trait.Manager;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -21,7 +18,7 @@ import java.util.function.Consumer;
  * @since 11/14/2023
  * @version 1.0
  */
-public final class ModuleManager implements IManager {
+public final class ModuleManager implements Manager {
     private final ClassToInstanceMap<Module> classModuleMap;
 
     public ModuleManager() {
@@ -47,16 +44,10 @@ public final class ModuleManager implements IManager {
     }
 
     @Register
-    private final Consumer<EventKey> onKeyPressEvent = event -> {
+    private final Consumer<EventKey> onKeyPress = event -> {
         for (final Module module : getModules()) {
-            ValueContainer valueContainer = Azide.getSingleton().getValueManager().getModuleValueContainerMap().get(module.getClass());
-
-            if (valueContainer != null) {
-                Value<?> keybindValue = valueContainer.getKeyValue("keybind");
-
-                if (keybindValue != null && keybindValue.getValue() != null && keybindValue.getValue().equals(event.getKey())) {
-                    module.setEnabled(!module.isEnabled());
-                }
+            if (event.getKey() == module.getKeybind().getValue()) {
+                module.toggle();
             }
         }
     };

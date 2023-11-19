@@ -2,32 +2,37 @@ package xyz.azide;
 
 import org.lwjgl.opengl.Display;
 import xyz.azide.event.bus.EventBus;
-import xyz.azide.module.ModuleManager;
-import xyz.azide.trait.IInitializable;
-import xyz.azide.trait.IManager;
-import xyz.azide.value.ValueManager;
+import xyz.azide.module.api.ModuleManager;
+import xyz.azide.trait.Initializable;
+import xyz.azide.trait.Manager;
+import xyz.azide.trait.Util;
+import xyz.azide.util.discord.DiscordUtil;
+import xyz.azide.value.api.ValueManager;
 
 /**
  * @author Severanced and plusbox
  * @since 11/14/2023
  * @version 1.0
  */
-public final class Azide implements IInitializable {
+public final class Azide implements Initializable {
     private static final Azide SINGLETON;
     private static final String NAME, VERSION, BUILD;
     private final EventBus eventBus;
-    private final IManager moduleManager, valueManager;
+    private final Manager moduleManager, valueManager;
+    private final DiscordUtil discordUtil;
 
     private Azide() {
         eventBus = new EventBus();
         moduleManager = new ModuleManager();
         valueManager = new ValueManager();
+        discordUtil = new DiscordUtil();
     }
 
     @Override
     public void initialize() {
         moduleManager.initialize();
         valueManager.initialize();
+        discordUtil.initialize();
 
         Display.setTitle(NAME + " " + VERSION + " (" + BUILD + ")");
     }
@@ -54,6 +59,10 @@ public final class Azide implements IInitializable {
 
     public ValueManager getValueManager() {
         return (ValueManager) valueManager;
+    }
+
+    public DiscordUtil getDiscordUtil(){
+        return discordUtil;
     }
 
     static {

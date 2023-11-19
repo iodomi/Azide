@@ -1,5 +1,6 @@
-package xyz.azide.value;
+package xyz.azide.value.api;
 
+import xyz.azide.value.Value;
 import xyz.azide.value.impl.*;
 
 import java.util.HashMap;
