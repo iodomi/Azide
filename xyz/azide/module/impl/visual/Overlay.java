@@ -14,7 +14,7 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class Overlay extends Module {
-    private final BooleanValue test = new BooleanValue("Test", true);
+    public final BooleanValue test = new BooleanValue("Test", true);
     public String watermarkName = Azide.getName();
 
     public Overlay() {

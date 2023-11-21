@@ -28,35 +28,34 @@ public final class ConfigManager implements Json {
     }
 
     public void save() {
-        this.config = new File(directory, name + ".json");
-
-        try {
-            JsonObject json = new JsonObject();
-            for (Module m : Azide.getSingleton().getModuleManager().getModules()) {
-                JsonObject properties = new JsonObject();
-                properties.addProperty("toggled", m.isEnabled());
-                for (Value<?> value : m.getValues()) {
-                    final String name = value.getName();
-                    if (value instanceof KeyValue) {
-                        properties.addProperty(name, ((KeyValue) value).getValue());
-                    } else if (value instanceof BooleanValue) {
-                        properties.addProperty(name, ((BooleanValue) value).getValue());
-                    } else if (value instanceof EnumValue) {
-                        properties.addProperty(name, ((EnumValue) value).getValue().toString());
-                    } else if (value instanceof NumberValue) {
-                        properties.addProperty(name, ((NumberValue) value).getValue().doubleValue());
-                    } else if (value instanceof StringValue) {
-                        properties.addProperty(name, ((StringValue) value).getValue());
-                    } else if (value instanceof ColorValue) {
-                        final Color color = ((ColorValue) value).getValue();
-                        properties.addProperty(name, color.getRed() + "_" + color.getGreen() + "_" + color.getBlue() + color.getAlpha());
-                    }
+        final JsonObject json = new JsonObject();
+        for (final Module m : Azide.getSingleton().getModuleManager().getModules()) {
+            final JsonObject properties = new JsonObject();
+            properties.addProperty("toggled", m.isEnabled());
+            for (final Value<?> value : m.getValues()) {
+                final String name = value.getName();
+                if (value instanceof KeyValue) {
+                    properties.addProperty(name, ((KeyValue) value).getValue());
+                } else if (value instanceof BooleanValue) {
+                    properties.addProperty(name, ((BooleanValue) value).getValue());
+                } else if (value instanceof EnumValue) {
+                    properties.addProperty(name, ((EnumValue) value).getValue().toString());
+                } else if (value instanceof NumberValue) {
+                    properties.addProperty(name, ((NumberValue) value).getValue().doubleValue());
+                } else if (value instanceof StringValue) {
+                    properties.addProperty(name, ((StringValue) value).getValue());
+                } else if (value instanceof ColorValue) {
+                    final Color color = ((ColorValue) value).getValue();
+                    properties.addProperty(name, color.getRed() + "_" + color.getGreen() + "_" + color.getBlue() + color.getAlpha());
                 }
-                json.add(m.getName(), properties);
             }
-            PrintWriter printer = new PrintWriter(new FileWriter(config));
-            printer.println(gson.toJson(json));
-            printer.close();
+            json.add(m.getName(), properties);
+        }
+        try {
+            final FileWriter writer;
+            writer = new FileWriter(config);
+            writer.write(gson.toJson(json));
+            writer.close();
             ChatUtil.addChatMessage("Config was successfully saved");
         } catch (IOException e) {
             ChatUtil.addErrorMessage("Could not save config");
@@ -65,16 +64,21 @@ public final class ConfigManager implements Json {
     }
 
     public void load() {
-        this.config = new File(directory, name + ".json");
-
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(config));
-            JsonObject json = (JsonObject) parser.parse(reader);
+            if (!config.exists()) {
+                ChatUtil.addErrorMessage("This config does not exist");
+                return;
+            }
+
+            final BufferedReader reader = new BufferedReader(new FileReader(config));
+            final JsonObject json = (JsonObject) parser.parse(reader);
+
             reader.close();
+
             for (Map.Entry<String, JsonElement> entry : json.entrySet()) {
-                Module m = Azide.getSingleton().getModuleManager().getModule(entry.getKey());
+                final Module m = Azide.getSingleton().getModuleManager().getModule(entry.getKey());
                 if (m != null) {
-                    JsonObject properties = (JsonObject) entry.getValue();
+                    final JsonObject properties = (JsonObject) entry.getValue();
                     boolean toggled = properties.get("toggled").getAsBoolean();
                     m.setEnabled(toggled);
 
@@ -105,8 +109,6 @@ public final class ConfigManager implements Json {
     }
 
     public void delete() {
-        this.config = new File(directory, name + ".json");
-
         if (!config.exists()) {
             ChatUtil.addErrorMessage("This config does not exist");
             return;

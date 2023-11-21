@@ -31,6 +31,8 @@ import net.optifine.DynamicLights;
 import net.optifine.reflect.Reflector;
 import net.optifine.shaders.Shaders;
 import org.lwjgl.opengl.GL11;
+import xyz.azide.Azide;
+import xyz.azide.module.impl.visual.Animations;
 
 public class ItemRenderer
 {
@@ -344,8 +346,15 @@ public class ItemRenderer
                             break;
 
                         case BLOCK:
-                            this.transformFirstPersonItem(f, 0.0F);
-                            this.doBlockTransformations();
+                            if (!Azide.getSingleton().getModuleManager().getModule(Animations.class).isEnabled()) {
+                                this.transformFirstPersonItem(f, 0.0F);
+                                this.doBlockTransformations();
+                            } else {
+                                this.transformFirstPersonItem(0.2f, f1);
+                                this.doBlockTransformations();
+                                GlStateManager.translate(-0.5f, 0.2f, 0.0f);
+                            }
+
                             break;
 
                         case BOW:
