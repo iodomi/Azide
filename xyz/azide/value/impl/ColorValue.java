@@ -11,11 +11,11 @@ import java.util.function.Supplier;
  * @version 1.0
  */
 public final class ColorValue extends Value<Color> {
-    public ColorValue(final String name, final String description, final Color value, final Supplier<Boolean> supplier) {
-        super(name, description, value, supplier);
+    public ColorValue(final String name, final Color value, final Supplier<Boolean> supplier) {
+        super(name, value, supplier);
     }
 
-    public ColorValue(final String name, final String description, final Color value) {
-        super(name, description, value);
+    public ColorValue(final String name, final Color value) {
+        super(name, value);
     }
 }

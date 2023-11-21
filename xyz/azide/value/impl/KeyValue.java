@@ -10,11 +10,11 @@ import java.util.function.Supplier;
  * @version 1.0
  */
 public final class KeyValue extends Value<Integer> {
-    public KeyValue(final String name, final String description, final Integer value, final Supplier<Boolean> supplier) {
-        super(name, description, value, supplier);
+    public KeyValue(final String name, final Integer value, final Supplier<Boolean> supplier) {
+        super(name, value, supplier);
     }
 
-    public KeyValue(final String name, final String description, final Integer value) {
-        super(name, description, value);
+    public KeyValue(final String name, final Integer value) {
+        super(name, value);
     }
 }

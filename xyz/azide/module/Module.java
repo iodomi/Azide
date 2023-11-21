@@ -26,9 +26,16 @@ public class Module implements ValueContainer, Util {
 
     protected Module(final String name, final String description, final ModuleCategory moduleCategory) {
         this.name = name;
-        this.description = !description.isEmpty() ? description : name;
+        this.description = description.isEmpty() ? name : description;
         this.moduleCategory = moduleCategory;
-        this.keybind = new KeyValue("Key Binding", null, 0);
+        this.keybind = new KeyValue("Keybinding", 0);
+    }
+
+    protected Module(final String name, final ModuleCategory moduleCategory) {
+        this.name = name;
+        this.description = name;
+        this.moduleCategory = moduleCategory;
+        this.keybind = new KeyValue("Keybinding", 0);
     }
 
     public final void toggle() {
@@ -48,7 +55,7 @@ public class Module implements ValueContainer, Util {
     }
 
     public final void setKeybind(KeyValue key) {
-        this.keybind = key;
+        this.keybind.setValue(key.getValue());
     }
 
     public final ModuleCategory getModuleCategory() {

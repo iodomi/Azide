@@ -4,8 +4,8 @@ import com.google.common.collect.ClassToInstanceMap;
 import com.google.common.collect.MutableClassToInstanceMap;
 import org.reflections.Reflections;
 import xyz.azide.Azide;
-import xyz.azide.event.bus.Register;
-import xyz.azide.event.impl.EventKey;
+import xyz.azide.event.api.bus.Register;
+import xyz.azide.event.impl.player.EventKey;
 import xyz.azide.module.Module;
 import xyz.azide.trait.Manager;
 
@@ -53,8 +53,19 @@ public final class ModuleManager implements Manager {
     };
 
     public Module getModule(final Class<?> clazz) {
+        System.out.println(classModuleMap.get(clazz));
         return classModuleMap.get(clazz);
     }
+
+    public Module getModule(final String name) {
+        for (final Module module : getModules()) {
+            if (module.getName().equalsIgnoreCase(name)) {
+                return module;
+            }
+        }
+        return null;
+    }
+
 
     public Collection<Module> getModules() {
         return classModuleMap.values();

@@ -8,30 +8,24 @@ import java.util.function.Supplier;
  * @version 1.0
  */
 public class Value<T> {
-    private final String name, description;
+    private final String name;
     private T value;
     private final Supplier<Boolean> supplier;
 
-    protected Value(final String name, final String description, final T value, final Supplier<Boolean> supplier) {
+    protected Value(final String name, final T value, final Supplier<Boolean> supplier) {
         this.value = value;
         this.name = name;
-        this.description = description;
         this.supplier = supplier;
     }
 
-    protected Value(final String name, final String description, final T value) {
+    protected Value(final String name, final T value) {
         this.value = value;
         this.name = name;
-        this.description = description;
         this.supplier = null;
     }
 
     public String getName() {
         return name;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     public T getValue() {

@@ -43,6 +43,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StringUtils;
 import net.minecraft.world.border.WorldBorder;
 import net.optifine.CustomColors;
+import xyz.azide.Azide;
+import xyz.azide.event.impl.render.EventRender;
 
 public class GuiIngame extends Gui
 {
@@ -326,6 +328,8 @@ public class GuiIngame extends Gui
         {
             this.overlayPlayerList.updatePlayerList(false);
         }
+
+        Azide.getSingleton().getEventBus().dispatch(new EventRender.Overlay(scaledresolution, partialTicks));
 
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager.disableLighting();

@@ -52,8 +52,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IInteractionObject;
 import net.minecraft.world.World;
 import xyz.azide.Azide;
-import xyz.azide.event.impl.EventChat;
-import xyz.azide.event.impl.EventUpdate;
+import xyz.azide.event.impl.player.EventChat;
+import xyz.azide.event.impl.player.EventUpdate;
 
 public class EntityPlayerSP extends AbstractClientPlayer
 {
@@ -232,9 +232,11 @@ public class EntityPlayerSP extends AbstractClientPlayer
     {
         final EventChat.Send event = new EventChat.Send(message);
 
-        if (event.isCancelled()) return;
-
         Azide.getSingleton().getEventBus().dispatch(event);
+
+        if (event.isCancelled()) {
+            return;
+        }
 
         this.sendQueue.addToSendQueue(new C01PacketChatMessage(message));
     }

@@ -1,4 +1,4 @@
-package xyz.azide.event.bus;
+package xyz.azide.event.api.bus;
 
 import xyz.azide.event.Event;
 

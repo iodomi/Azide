@@ -12,15 +12,15 @@ import java.util.function.Supplier;
 public final class NumberValue extends Value<Number> {
     private Number min, max, increment;
 
-    public NumberValue(final String name, final String description, final Number value, final Number min, final Number max, final Number increment, final Supplier<Boolean> supplier) {
-        super(name, description, value, supplier);
+    public NumberValue(final String name, final Number value, final Number min, final Number max, final Number increment, final Supplier<Boolean> supplier) {
+        super(name, value, supplier);
         this.min = min;
         this.max = max;
         this.increment = increment;
     }
 
-    public NumberValue(final String name, final String description, final Number value, final Number min, final Number max, final Number increment) {
-        super(name, description, value);
+    public NumberValue(final String name, final Number value, final Number min, final Number max, final Number increment) {
+        super(name, value);
         this.min = min;
         this.max = max;
         this.increment = increment;

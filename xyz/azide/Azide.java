@@ -1,13 +1,14 @@
 package xyz.azide;
 
 import org.lwjgl.opengl.Display;
-import xyz.azide.event.bus.EventBus;
+import xyz.azide.command.api.CommandManager;
+import xyz.azide.event.api.bus.EventBus;
 import xyz.azide.module.api.ModuleManager;
 import xyz.azide.trait.Initializable;
 import xyz.azide.trait.Manager;
-import xyz.azide.trait.Util;
-import xyz.azide.util.discord.DiscordUtil;
 import xyz.azide.value.api.ValueManager;
+
+import java.io.File;
 
 /**
  * @author Severanced and plusbox
@@ -18,21 +19,25 @@ public final class Azide implements Initializable {
     private static final Azide SINGLETON;
     private static final String NAME, VERSION, BUILD;
     private final EventBus eventBus;
-    private final Manager moduleManager, valueManager;
-    private final DiscordUtil discordUtil;
+    private final Manager moduleManager, valueManager, commandManager;
+    private static final File DIR;
 
     private Azide() {
         eventBus = new EventBus();
+        commandManager = new CommandManager();
         moduleManager = new ModuleManager();
         valueManager = new ValueManager();
-        discordUtil = new DiscordUtil();
     }
 
     @Override
     public void initialize() {
+        commandManager.initialize();
         moduleManager.initialize();
         valueManager.initialize();
-        discordUtil.initialize();
+
+        if (!DIR.exists()) {
+            DIR.mkdir();
+        }
 
         Display.setTitle(NAME + " " + VERSION + " (" + BUILD + ")");
     }
@@ -61,8 +66,8 @@ public final class Azide implements Initializable {
         return (ValueManager) valueManager;
     }
 
-    public DiscordUtil getDiscordUtil(){
-        return discordUtil;
+    public CommandManager getCommandManager() {
+        return (CommandManager) commandManager;
     }
 
     static {
@@ -70,5 +75,6 @@ public final class Azide implements Initializable {
         NAME = "Azide";
         VERSION = "1.0";
         BUILD = "Development";
+        DIR = new File("azide");
     }
 }

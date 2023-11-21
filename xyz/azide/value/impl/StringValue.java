@@ -10,11 +10,11 @@ import java.util.function.Supplier;
  * @version 1.0
  */
 public final class StringValue extends Value<String> {
-    public StringValue(final String name, final String description, final String value, final Supplier<Boolean> supplier) {
-        super(name, description, value, supplier);
+    public StringValue(final String name, final String value, final Supplier<Boolean> supplier) {
+        super(name, value, supplier);
     }
 
-    public StringValue(final String name, final String description, final String value) {
-        super(name, description, value);
+    public StringValue(final String name, final String value) {
+        super(name, value);
     }
 }

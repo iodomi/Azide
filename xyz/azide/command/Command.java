@@ -1,21 +1,26 @@
 package xyz.azide.command;
 
 public abstract class Command {
-    private final String description;
-    private final String[] alternatives;
+    private final String name, description;
+    private final String[] alias;
 
-    public Command(final String description, final String[] alternatives) {
+    public Command(final String name, final String description, final String[] alias) {
+        this.name = name;
         this.description = description;
-        this.alternatives = alternatives;
+        this.alias = alias;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public String[] getAlternatives() {
-        return alternatives;
+    public String[] getAlias() {
+        return alias;
     }
 
-    public abstract void invoke(String[] args);
+    public String getName() {
+        return name;
+    }
+
+    public abstract void invoke(final String[] args);
 }

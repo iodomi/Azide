@@ -185,7 +185,7 @@ import org.lwjgl.opengl.OpenGLException;
 import org.lwjgl.opengl.PixelFormat;
 import org.lwjgl.util.glu.GLU;
 import xyz.azide.Azide;
-import xyz.azide.event.impl.EventKey;
+import xyz.azide.event.impl.player.EventKey;
 
 public class Minecraft implements IThreadListener, IPlayerUsage
 {

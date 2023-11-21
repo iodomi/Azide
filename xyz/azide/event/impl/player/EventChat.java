@@ -1,4 +1,4 @@
-package xyz.azide.event.impl;
+package xyz.azide.event.impl.player;
 
 import xyz.azide.event.CancelableEvent;
 

@@ -11,7 +11,7 @@ import java.util.Collection;
 public interface ValueContainer {
     void register();
 
-    <T extends Value<?>> Value<T> get(final String name);
+    <T extends Value<?>> Value<?> get(final String name);
 
     Collection<Value<?>> getValues();
 }

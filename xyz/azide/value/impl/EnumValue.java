@@ -10,12 +10,12 @@ import java.util.function.Supplier;
  * @version 1.0
  */
 public final class EnumValue extends Value<Enum<?>> {
-    public EnumValue(final String name, final String description, final Enum<?> value, final Supplier<Boolean> supplier) {
-        super(name, description, value, supplier);
+    public EnumValue(final String name, final Enum<?> value, final Supplier<Boolean> supplier) {
+        super(name, value, supplier);
     }
 
-    public EnumValue(final String name, final String description, final Enum<?> value) {
-        super(name, description, value);
+    public EnumValue(final String name, final Enum<?> value) {
+        super(name, value);
     }
 
     public String getFormattedValue() {

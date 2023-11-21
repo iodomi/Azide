@@ -1,8 +1,8 @@
 package xyz.azide.module.impl.movement;
 
 import org.lwjgl.input.Keyboard;
-import xyz.azide.event.bus.Register;
-import xyz.azide.event.impl.EventUpdate;
+import xyz.azide.event.api.bus.Register;
+import xyz.azide.event.impl.player.EventUpdate;
 import xyz.azide.module.Module;
 import xyz.azide.module.api.ModuleCategory;
 import xyz.azide.util.move.MovementUtil;
@@ -13,8 +13,7 @@ import java.util.function.Consumer;
 public final class Speed extends Module {
     public Speed() {
         super("Speed", "Lets you move faster", ModuleCategory.MOVEMENT);
-        setKeybind(new KeyValue("Speed", null, Keyboard.KEY_G));
-
+        setKeybind(new KeyValue("Keybinding", Keyboard.KEY_G));
         onEnable = () -> {};
         onDisable = () -> {};
     }
