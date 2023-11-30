@@ -4,7 +4,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import xyz.azide.Azide;
 import xyz.azide.module.Module;
+import xyz.azide.module.api.ModuleManager;
 import xyz.azide.trait.Json;
+import xyz.azide.trait.Manager;
 import xyz.azide.util.game.ChatUtil;
 import xyz.azide.value.Value;
 import xyz.azide.value.impl.*;
@@ -14,7 +16,7 @@ import java.io.*;
 import java.util.Map;
 import java.util.Objects;
 
-public final class ConfigManager implements Json {
+public final class ConfigManager implements Json, Manager {
     private final File directory = new File("azide/config");
     private String name;
     private File config;
@@ -29,32 +31,49 @@ public final class ConfigManager implements Json {
 
     public void save() {
         final JsonObject json = new JsonObject();
-        for (final Module m : Azide.getSingleton().getModuleManager().getModules()) {
+        final ModuleManager moduleManager = Azide.getSingleton().getModuleManager();
+
+        for (final Module m : moduleManager.getModules()) {
             final JsonObject properties = new JsonObject();
             properties.addProperty("toggled", m.isEnabled());
+
             for (final Value<?> value : m.getValues()) {
                 final String name = value.getName();
-                if (value instanceof KeyValue) {
-                    properties.addProperty(name, ((KeyValue) value).getValue());
-                } else if (value instanceof BooleanValue) {
-                    properties.addProperty(name, ((BooleanValue) value).getValue());
-                } else if (value instanceof EnumValue) {
-                    properties.addProperty(name, ((EnumValue) value).getValue().toString());
-                } else if (value instanceof NumberValue) {
-                    properties.addProperty(name, ((NumberValue) value).getValue().doubleValue());
-                } else if (value instanceof StringValue) {
-                    properties.addProperty(name, ((StringValue) value).getValue());
-                } else if (value instanceof ColorValue) {
-                    final Color color = ((ColorValue) value).getValue();
-                    properties.addProperty(name, color.getRed() + "_" + color.getGreen() + "_" + color.getBlue() + color.getAlpha());
+                Object valueProperty = null;
+
+                switch (value.getClass().getSimpleName()) {
+                    case "KeyValue":
+                        valueProperty = ((KeyValue) value).getValue();
+                        break;
+                    case "BooleanValue":
+                        valueProperty = ((BooleanValue) value).getValue();
+                        break;
+                    case "EnumValue":
+                        valueProperty = ((EnumValue) value).getFormattedValue();
+                        break;
+                    case "NumberValue":
+                        valueProperty = ((NumberValue) value).getValue().doubleValue();
+                        break;
+                    case "StringValue":
+                        valueProperty = ((StringValue) value).getValue();
+                        break;
+                    case "ColorValue":
+                        final Color color = ((ColorValue) value).getValue();
+                        valueProperty = color.getRed() + "_" + color.getGreen() + "_" + color.getBlue() + "_" + color.getAlpha();
+                        break;
+                }
+
+                if (valueProperty != null) {
+                    properties.addProperty(name, valueProperty.toString());
                 }
             }
+
             json.add(m.getName(), properties);
         }
+
         try {
-            final FileWriter writer;
-            writer = new FileWriter(config);
-            writer.write(gson.toJson(json));
+            final FileWriter writer = new FileWriter(config);
+            writer.write(json.toString());
             writer.close();
             ChatUtil.addChatMessage("Config was successfully saved");
         } catch (IOException e) {
@@ -117,6 +136,12 @@ public final class ConfigManager implements Json {
         ChatUtil.addChatMessage("Config was successfully deleted");
     }
 
+    public void makeDir(final File directory) {
+        if (!directory.exists()) {
+            directory.mkdir();
+        }
+    }
+
     public void list() {
         if (!directory.exists()) {
             ChatUtil.addChatMessage("Config directory does not exist");
@@ -134,5 +159,10 @@ public final class ConfigManager implements Json {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public void initialize() {
+        makeDir(Azide.getDirectory());
     }
 }

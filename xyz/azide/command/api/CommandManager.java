@@ -6,12 +6,10 @@ import xyz.azide.command.Command;
 import xyz.azide.event.api.bus.Register;
 import xyz.azide.event.impl.player.EventChat;
 import xyz.azide.trait.Manager;
-import xyz.azide.util.game.ChatUtil;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Set;
 import java.util.function.Consumer;
 
 public final class CommandManager implements Manager {
@@ -20,7 +18,6 @@ public final class CommandManager implements Manager {
     @Register
     private final Consumer<EventChat.Send> onChatSend = event -> {
         final String prefix = ".";
-        boolean exists = false;
 
         if (event.getMessage().startsWith(prefix)) {
             for (final Command command : getCommands()) {
@@ -30,14 +27,10 @@ public final class CommandManager implements Manager {
                         final String[] arguments = event.getMessage().split(" ");
                         command.invoke(Arrays.copyOfRange(arguments, 1, arguments.length));
                         event.setCancelled(true);
-                        exists = true;
                         break;
                     }
                 }
             }
-        }
-        if (!exists){
-            ChatUtil.addErrorMessage("This command does not exist");
         }
     };
 
@@ -45,24 +38,16 @@ public final class CommandManager implements Manager {
     public void initialize() {
         Azide.getSingleton().getEventBus().register(this);
 
-        final Set<Class<? extends Command>> classSet = new Reflections().getSubTypesOf(Command.class);
-
-        if (!classSet.isEmpty()) {
-            for (final Class<? extends Command> clazz : classSet) {
-                try {
-                    classCommandMap.put(clazz, clazz.getDeclaredConstructor().newInstance());
-                } catch (ReflectiveOperationException e) {
-                    e.printStackTrace();
-                }
+        for (final Class<? extends Command> clazz : new Reflections().getSubTypesOf(Command.class)) {
+            try {
+                classCommandMap.put(clazz, clazz.getDeclaredConstructor().newInstance());
+            } catch (ReflectiveOperationException e) {
+                throw new RuntimeException(e);
             }
         }
     }
 
     public Collection<Command> getCommands() {
         return classCommandMap.values();
-    }
-
-    public Command getCommand(final Class<? extends Command> command) {
-        return classCommandMap.get(command);
     }
 }

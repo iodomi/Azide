@@ -10,8 +10,8 @@ import java.util.HashMap;
 
 /**
  * @author plusbox
- * @since 11/14/2023
  * @version 1.0
+ * @since 11/14/2023
  */
 public final class ValueManager implements Manager {
     private final HashMap<Class<? extends Module>, ValueContainer> moduleValueContainerMap;
@@ -31,7 +31,7 @@ public final class ValueManager implements Manager {
                         final Value<?> value = (Value<?>) field.get(module);
                         valueContainer.getStringValueMap().put(value.getName(), value);
                     } catch (IllegalAccessException e) {
-                        e.printStackTrace();
+                        throw new RuntimeException(e);
                     }
                 }
             }

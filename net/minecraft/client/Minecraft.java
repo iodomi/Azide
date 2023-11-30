@@ -487,6 +487,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         this.effectRenderer = new EffectRenderer(this.theWorld, this.renderEngine);
         this.checkGLError("Post startup");
         this.ingameGUI = new GuiIngame(this);
+        Azide.getSingleton().initialize(); // Initialization
 
         if (this.serverName != null)
         {
@@ -517,8 +518,6 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         }
 
         this.renderGlobal.makeEntityOutlineShader();
-
-        Azide.getSingleton().initialize(); // Initialization
     }
 
     private void registerMetadataSerializers()

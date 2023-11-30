@@ -15,7 +15,7 @@ public final class Config extends Command {
     public void invoke(String[] args) {
         try {
             if (args.length < 3) {
-                final ConfigManager config = new ConfigManager();
+                final ConfigManager config = Azide.getSingleton().getConfigManager();
                 if (args.length > 1) {
                     config.create(args[1]);
                 }

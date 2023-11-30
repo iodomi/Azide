@@ -6,5 +6,4 @@ package xyz.azide.trait;
  * @version 1.0
  */
 public interface Manager extends Initializable {
-
 }

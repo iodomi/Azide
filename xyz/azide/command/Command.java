@@ -24,3 +24,4 @@ public abstract class Command {
 
     public abstract void invoke(final String[] args);
 }
+

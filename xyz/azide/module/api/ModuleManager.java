@@ -37,7 +37,7 @@ public final class ModuleManager implements Manager {
                     Module moduleInstance = clazz.getDeclaredConstructor().newInstance();
                     classModuleMap.put(clazz, moduleInstance);
                 } catch (ReflectiveOperationException e) {
-                    e.printStackTrace();
+                    throw new RuntimeException(e);
                 }
             }
         }
@@ -53,7 +53,6 @@ public final class ModuleManager implements Manager {
     };
 
     public Module getModule(final Class<?> clazz) {
-        System.out.println(classModuleMap.get(clazz));
         return classModuleMap.get(clazz);
     }
 

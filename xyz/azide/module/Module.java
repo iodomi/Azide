@@ -1,5 +1,6 @@
 package xyz.azide.module;
 
+import net.minecraft.util.EnumChatFormatting;
 import xyz.azide.Azide;
 import xyz.azide.module.api.ModuleCategory;
 import xyz.azide.trait.Util;
@@ -12,17 +13,18 @@ import java.util.LinkedHashMap;
 
 /**
  * @author plusbox
- * @since 11/14/2023
  * @version 1.0
+ * @since 11/14/2023
  */
 public class Module implements ValueContainer, Util {
     private final LinkedHashMap<String, Value<?>> stringValueMap = new LinkedHashMap<>();
     private final String name, description;
     private final ModuleCategory moduleCategory;
-    private boolean enabled;
-    private KeyValue keybind;
+    private final KeyValue keybind;
     protected Runnable onEnable;
     protected Runnable onDisable;
+    private String suffix;
+    private boolean enabled;
 
     protected Module(final String name, final String description, final ModuleCategory moduleCategory) {
         this.name = name;
@@ -56,6 +58,16 @@ public class Module implements ValueContainer, Util {
 
     public final void setKeybind(KeyValue key) {
         this.keybind.setValue(key.getValue());
+    }
+
+    public String getSuffix() {
+        if (suffix != null)
+            return suffix;
+        return "";
+    }
+
+    public void setSuffix(String suffix) {
+        this.suffix = EnumChatFormatting.GRAY + " " + suffix;
     }
 
     public final ModuleCategory getModuleCategory() {
